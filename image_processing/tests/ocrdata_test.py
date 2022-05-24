@@ -105,3 +105,7 @@ def test_word_get_center(valid_test_words):
     assert valid_test_words[2].get_center() == (985.5, 364.5)
 
 
+def test_word_distance_between(valid_test_words):
+    assert round(valid_test_words[0].distance_between(valid_test_words[1]), 2) == 90.86
+    assert round(valid_test_words[1].distance_between(valid_test_words[2]), 2) == 968.78
+    assert round(valid_test_words[2].distance_between(valid_test_words[0]), 2) == 1050.75
