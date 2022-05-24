@@ -10,7 +10,7 @@ class Word:
     def __init__(self):
         # Attributes that a word can have. These are the same names as the attributes that Python-tesseract produces
         # with its image_get_data() function. The types of these values cannot change as enforced by update_attr().
-        self.__attributes = {
+        self._attributes = {
             'level': 0,
             'page_num': 0,
             'block_num': 0,
@@ -25,6 +25,17 @@ class Word:
             'text': '',
         }
 
+    def get_attr(self, attribute):
+        """
+        Returns the value of a given attribute. Raises KeyError if given an attribute not in the Word object.
+        :param attribute:
+        :return:
+        """
+        if attribute in self._attributes:
+            return self._attributes.get(attribute)
+        else:
+            raise KeyError('{0} is not an attribute for class Word'.format(attribute))
+
     def update_attr(self, attribute, value):
         """
         Update the attribute of a word to a new value. Throws KeyError if the key does not exist. Throws TypeError if
@@ -35,11 +46,11 @@ class Word:
         :return: the new updated word object
         """
 
-        if attribute not in self.__attributes:
+        if attribute not in self._attributes:
             raise KeyError()
 
         else:
-            old_value = self.__attributes.get(attribute)
+            old_value = self._attributes.get(attribute)
 
             # First check if the attribute is 'conf' as it can have two different types
             if attribute == 'conf':
@@ -48,13 +59,13 @@ class Word:
                 elif (value > 100 or value < 0) and value != -1:
                     raise ValueError()
                 else:
-                    self.__attributes[attribute] = value  # Write value if conf check passes
+                    self._attributes[attribute] = value  # Write value if conf check passes
             elif type(value) != type(old_value):
                 raise TypeError('Attribute {attr} must be of type {type}'.format(attr=attribute, type=type(old_value)))
             elif attribute != 'text' and value < 0:
                 raise ValueError('Numeric values other than confidence (conf) must be positive')
             else:
-                self.__attributes[attribute] = value  # Write value if remaining type checks pass
+                self._attributes[attribute] = value  # Write value if remaining type checks pass
 
     def get_center(self):
         """
@@ -64,8 +75,8 @@ class Word:
 
         :return: coordinates as a tuple (x,y)
         """
-        return (self.__attributes.get('left') + (self.__attributes.get('width') / 2),
-                self.__attributes.get('top') + (self.__attributes.get('height') / 2))
+        return (self._attributes.get('left') + (self._attributes.get('width') / 2),
+                self._attributes.get('top') + (self._attributes.get('height') / 2))
 
     def distance_between(self, word):
         """

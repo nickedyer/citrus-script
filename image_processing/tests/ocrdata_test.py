@@ -2,7 +2,64 @@ from ..ocrdata import *
 import pytest
 
 
-def test_word_update():
+@pytest.fixture
+def valid_test_words():
+    test_word_values = [
+        {  # Zero-width word at origin
+            'top': 0,
+            'left': 0,
+            'width': 0,
+            'height': 0,
+            'text': 'test_word_1',
+        },
+        {
+            'top': 54,
+            'left': 27,
+            'width': 75,
+            'height': 20,
+            'text': 'test_word_2',
+        },
+        {
+            'top': 356,
+            'left': 954,
+            'width': 63,
+            'height': 17,
+            'text': 'test_word_3',
+        },
+        {
+            'top': 799,
+            'left': 1426,
+            'width': 111,
+            'height': 22,
+            'text': 'test_word_4',
+        }
+    ]
+
+    word_list = []
+    for word in test_word_values:
+        test_word = Word()  # Make a new word
+        test_attributes = word.keys()
+        for attribute in test_attributes:
+            test_word.update_attr(attribute, word.get(attribute))  # Update new word with every attribute in the list
+        word_list.append(test_word)  # Add the updated word to the word list
+    return word_list
+
+
+def test_word_get_attr(valid_test_words):
+    for test_word in valid_test_words:
+        with pytest.raises(KeyError):
+            test_word.get_attr(None)
+            test_word.get_attr(0)
+            test_word.get_attr(0.0)
+            test_word.get_attr(False)
+
+    assert valid_test_words[0].get_attr('text') == 'test_word_1'
+    assert valid_test_words[1].get_attr('top') == 54
+    assert valid_test_words[2].get_attr('left') == 954
+    assert valid_test_words[3].get_attr('width') == 111
+
+
+def test_word_update_attr():
     key_error_values = [
         ('', ''),
         ('', False),
@@ -61,45 +118,6 @@ def test_word_update():
             Word().update_attr(value[0], value[1])
     for value in good_values:
         assert Word().update_attr(value[0], value[1]) is None  # Method has no return statement, so should return none
-
-
-@pytest.fixture
-def valid_test_words():
-    test_word_values = [
-        {  # Zero-width word at origin
-            'top': 0,
-            'left': 0,
-            'width': 0,
-            'height': 0,
-        },
-        {
-            'top': 54,
-            'left': 27,
-            'width': 75,
-            'height': 20,
-        },
-        {
-            'top': 356,
-            'left': 954,
-            'width': 63,
-            'height': 17,
-        },
-        {
-            'top': 799,
-            'left': 1426,
-            'width': 111,
-            'height': 22,
-        }
-    ]
-
-    word_list = []
-    for word in test_word_values:
-        test_word = Word()  # Make a new word
-        test_attributes = word.keys()
-        for attribute in test_attributes:
-            test_word.update_attr(attribute, word.get(attribute))  # Update new word with every attribute in the list
-        word_list.append(test_word)  # Add the updated word to the word list
-    return word_list
 
 
 def test_word_get_center(valid_test_words):
