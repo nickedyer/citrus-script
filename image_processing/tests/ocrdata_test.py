@@ -65,38 +65,43 @@ def test_word_update():
     for value in good_values:
         assert Word().update_attr(value[0], value[1]) is None
 
-def test_word_get_center():
+
+@pytest.fixture
+def valid_test_words():
     test_word_values = [
-        [
-            {  # Zero-width word at origin
-                'top': 0,
-                'left': 0,
-                'width': 0,
-                'height': 0,
-            }, (0.0, 0.0)  # Expected value
-        ],
-        [
-            {
-                'top': 54,
-                'left': 27,
-                'width': 75,
-                'height': 20,
-            }, (64.5, 64.0)
-        ],
-        [
-            {
-                'top': 356,
-                'left': 954,
-                'width': 63,
-                'height': 17,
-            }, (985.5, 364.5)
-        ]
+        {  # Zero-width word at origin
+            'top': 0,
+            'left': 0,
+            'width': 0,
+            'height': 0,
+        },
+        {
+            'top': 54,
+            'left': 27,
+            'width': 75,
+            'height': 20,
+        },
+        {
+            'top': 356,
+            'left': 954,
+            'width': 63,
+            'height': 17,
+        }
     ]
 
-    for test_value in test_word_values:
+    word_list = []
+    for word in test_word_values:
         test_word = Word()
-        test_attributes = test_value[0].keys()
+        test_attributes = word.keys()
         for attribute in test_attributes:
-            test_word.update_attr(attribute, test_value[0].get(attribute))
-        assert test_word.get_center() == test_value[1]
+            test_word.update_attr(attribute, word.get(attribute))
+        word_list.append(test_word)
+    return word_list
+
+
+def test_word_get_center(valid_test_words):
+    assert valid_test_words[0].get_center() == (0.0, 0.0)
+    assert valid_test_words[1].get_center() == (64.5, 64.0)
+    assert valid_test_words[2].get_center() == (985.5, 364.5)
+
 
