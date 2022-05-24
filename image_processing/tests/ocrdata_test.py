@@ -1,8 +1,5 @@
-import math
-
-import pytest
-
 from ..ocrdata import *
+import pytest
 
 
 def test_word_update():
@@ -55,7 +52,7 @@ def test_word_update():
 
     for value in key_error_values:
         with pytest.raises(KeyError):
-            Word().update_attr(value[0], value[1])
+            Word().update_attr(value[0], value[1])  # Use tuple as the two args for the update_attr method
     for value in type_error_values:
         with pytest.raises(TypeError):
             Word().update_attr(value[0], value[1])
@@ -63,7 +60,7 @@ def test_word_update():
         with pytest.raises(ValueError):
             Word().update_attr(value[0], value[1])
     for value in good_values:
-        assert Word().update_attr(value[0], value[1]) is None
+        assert Word().update_attr(value[0], value[1]) is None  # Method has no return statement, so should return none
 
 
 @pytest.fixture
@@ -91,11 +88,11 @@ def valid_test_words():
 
     word_list = []
     for word in test_word_values:
-        test_word = Word()
+        test_word = Word()  # Make a new word
         test_attributes = word.keys()
         for attribute in test_attributes:
-            test_word.update_attr(attribute, word.get(attribute))
-        word_list.append(test_word)
+            test_word.update_attr(attribute, word.get(attribute))  # Update new word with every attribute in the list
+        word_list.append(test_word)  # Add the updated word to the word list
     return word_list
 
 
