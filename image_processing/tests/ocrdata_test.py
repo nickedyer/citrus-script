@@ -83,6 +83,12 @@ def valid_test_words():
             'left': 954,
             'width': 63,
             'height': 17,
+        },
+        {
+            'top': 799,
+            'left': 1426,
+            'width': 111,
+            'height': 22,
         }
     ]
 
@@ -100,9 +106,14 @@ def test_word_get_center(valid_test_words):
     assert valid_test_words[0].get_center() == (0.0, 0.0)
     assert valid_test_words[1].get_center() == (64.5, 64.0)
     assert valid_test_words[2].get_center() == (985.5, 364.5)
+    assert valid_test_words[3].get_center() == (1481.5, 810)
 
 
 def test_word_distance_between(valid_test_words):
+    # Testing values rounded down to two decimal points
     assert round(valid_test_words[0].distance_between(valid_test_words[1]), 2) == 90.86
+    assert round(valid_test_words[0].distance_between(valid_test_words[2]), 2) == 1050.75
+    assert round(valid_test_words[0].distance_between(valid_test_words[3]), 2) == 1688.47
     assert round(valid_test_words[1].distance_between(valid_test_words[2]), 2) == 968.78
-    assert round(valid_test_words[2].distance_between(valid_test_words[0]), 2) == 1050.75
+    assert round(valid_test_words[1].distance_between(valid_test_words[3]), 2) == 1601.38
+    assert round(valid_test_words[2].distance_between(valid_test_words[3]), 2) == 666.7
