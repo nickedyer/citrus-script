@@ -1,4 +1,4 @@
-from ..ocrdata import *
+from ..words import *
 import pytest
 
 
