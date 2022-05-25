@@ -119,9 +119,9 @@ class WordList:
 
     def get_words(self, word_list):
         """
-        Returns a list of Word objects given the text of the word.
+        Returns a list of Word objects given the text of the word. Returns None if no word is found
 
         :param word_list: the word to get the instances of
         :return: list of all Word objects with the matching text
         """
-        return self._dictionary.get(word_list)
+        return self._dictionary.get(str(word_list))  # Making sure input is a string

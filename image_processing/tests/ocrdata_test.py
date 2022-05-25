@@ -152,6 +152,9 @@ def test_wordlist_append_get(valid_test_words):
         test_wordlist.append(test_word)
 
     assert test_wordlist.get_words('nonexistent_word') is None
+    assert test_wordlist.get_words(0) is None
+    assert test_wordlist.get_words(0.0) is None
+    assert test_wordlist.get_words(False) is None
     assert [valid_test_words[0]] == test_wordlist.get_words(valid_test_words[0].get_attr('text'))
     assert [valid_test_words[1]] == test_wordlist.get_words(valid_test_words[1].get_attr('text'))
     assert [valid_test_words[2]] == test_wordlist.get_words(valid_test_words[2].get_attr('text'))
