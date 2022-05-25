@@ -89,20 +89,39 @@ class Word:
 
 
 class WordList:
+    """
+    Class used to store and manipulate groups of Word objects. A WordList organizes words in a dictionary,
+    with the key being the text of the word and the value being a list of the instances of that word. WordLists can
+    only hold Word objects.
+    """
+
     def __init__(self):
         self._dictionary = {}
 
     def append(self, new_word):
+        """
+        Append a new word to the WordList. Raises TypeError if not given a Word object.
+        :param new_word: the Word object to be added to the WordList
+        """
         if not isinstance(new_word, Word):
             raise TypeError('Can only append Word object to a WordList (given {0})'.format(type(new_word)))
 
         new_word_text = str(new_word.get_attr('text'))  # Make sure all given inputs are strings
         word_list = self._dictionary.get(new_word_text)
-        try:
+        try:  # Try to add the word to an already existing list for that key
             word_list.append(new_word)
+
+        # If the key is not defined (returns None), set the value of
+        # the key to a new list containing the new Word object.
         except AttributeError:
             word_list = [new_word]
         self._dictionary[new_word_text] = word_list
 
     def get_words(self, word_list):
+        """
+        Returns a list of Word objects given the text of the word.
+
+        :param word_list: the word to get the instances of
+        :return: list of all Word objects with the matching text
+        """
         return self._dictionary.get(word_list)
