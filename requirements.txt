@@ -1,1 +1,4 @@
 pytest
+numpy
+pyautogui
+opencv-python
