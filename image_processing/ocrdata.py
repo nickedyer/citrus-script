@@ -86,3 +86,23 @@ class Word:
         :return: distance in pixels
         """
         return math.dist(self.get_center(), word.get_center())
+
+
+class WordList:
+    def __init__(self):
+        self._dictionary = {}
+
+    def append(self, new_word):
+        if not isinstance(new_word, Word):
+            raise TypeError('Can only append Word object to a WordList (given {0})'.format(type(new_word)))
+
+        new_word_text = str(new_word.get_attr('text'))  # Make sure all given inputs are strings
+        word_list = self._dictionary.get(new_word_text)
+        try:
+            word_list.append(new_word)
+        except AttributeError:
+            word_list = [new_word]
+        self._dictionary[new_word_text] = word_list
+
+    def get_words(self, word_list):
+        return self._dictionary.get(word_list)

@@ -135,3 +135,25 @@ def test_word_distance_between(valid_test_words):
     assert round(valid_test_words[1].distance_between(valid_test_words[2]), 2) == 968.78
     assert round(valid_test_words[1].distance_between(valid_test_words[3]), 2) == 1601.38
     assert round(valid_test_words[2].distance_between(valid_test_words[3]), 2) == 666.7
+
+
+def test_wordlist_append_get(valid_test_words):
+    test_wordlist = WordList()
+
+    duplicate_word_1 = Word()
+    duplicate_word_2 = Word()
+    duplicate_word_1.update_attr('text', 'duplicate_text')
+    duplicate_word_2.update_attr('text', 'duplicate_text')
+
+    test_wordlist.append(duplicate_word_1)
+    test_wordlist.append(duplicate_word_2)
+
+    for test_word in valid_test_words:
+        test_wordlist.append(test_word)
+
+    assert test_wordlist.get_words('nonexistent_word') is None
+    assert [valid_test_words[0]] == test_wordlist.get_words(valid_test_words[0].get_attr('text'))
+    assert [valid_test_words[1]] == test_wordlist.get_words(valid_test_words[1].get_attr('text'))
+    assert [valid_test_words[2]] == test_wordlist.get_words(valid_test_words[2].get_attr('text'))
+    assert [valid_test_words[3]] == test_wordlist.get_words(valid_test_words[3].get_attr('text'))
+    assert [duplicate_word_1, duplicate_word_2] == test_wordlist.get_words(duplicate_word_1.get_attr('text'))
